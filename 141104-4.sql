@@ -7,3 +7,9 @@ INSERT INTO dept_copy(deptno, dname, loc);
 commit;
 
 SELECT * FROM dept_copy;
+
+DELETE FROM dept_copy
+WHERE deptno IN(SELECT deptno+1 FROM departments);
+commit;
+
+SELECT * FROM dept_copy;
