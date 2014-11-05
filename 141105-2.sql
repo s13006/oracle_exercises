@@ -7,7 +7,8 @@ UPDATE emp_copy
 SELECT * FROM emp_copy
 /
 
-ROLLBACK/
+ROLLBACK
+/
 
 SELECT * FROM emp_copy
 /
