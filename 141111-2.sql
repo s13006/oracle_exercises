@@ -3,7 +3,7 @@ CREATE TABLE emp1(
     ename varchar2(10) CONSTRAINT emp1_ename_nn NOT NULL,
     deptno number(4),
     CONSTRAINT emp1_dept1_deptno_fk FOREIGN KEY (deptno)
-        REFERENCES dept1(deptno))
+        REFERENCES departments(deptno))
 /
 
 INSERT INTO emp1(empno, ename)

@@ -11,7 +11,7 @@ VALUES (10, '佐藤')
 INSERT INTO dept1(deptno, dname)
 VALUES (10, '山田')
 /
-INSERT INTO dept1(deptno,)
+INSERT INTO dept1(deptno)
 VALUES (10)
 /
 
