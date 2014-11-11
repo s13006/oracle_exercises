@@ -16,7 +16,7 @@ INSERT INTO emp1(empno)
 VALUES (10)
 /
 INSERT INTO emp1(empno, ename, deptno)
-VALUES (10, '佐藤', 10)
+VALUES (20, '佐藤', 100)
 /
 
 DROP TABLE emp1
