@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # 各自の環境に合わせて記述
-LD_LIBRARY_PATH=/home/yamauchi/instantclient_12_1
-PATH=/home/yamauchi/instantclient_12_1:$PATH
+LD_LIBRARY_PATH=/home/s13006/instantclient_12_1
+PATH=/home/s13006/instantclient_12_1:$PATH
 
 # 以降は共通
 NLS_LANG=JAPANESE_JAPAN.AL32UTF8
