@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Sample {
-	private String _user = "hr";
-	private String _pass = "hr";
+	private String _user = "s13006";
+	private String _pass = "password";
 	private String _host = "172.16.40.4";
 	private String _sid = "db11";
 	
