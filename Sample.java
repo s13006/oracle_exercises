@@ -32,7 +32,7 @@ public class Sample {
 
 			st = conn.createStatement();
 
-			rs = st.executeQuery("select DEPARTMENT_ID, DEPARTMENT_NAME from DEPARTMENTS");
+			rs = st.executeQuery("select DEPTNO, DNAME from DEPARTMENTS");
 
 			while(rs.next()){
 				String dept_id = rs.getString(1);
