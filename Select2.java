@@ -26,23 +26,20 @@ public class Select2 {
 			conn = DriverManager.getConnection(
 					"jdbc:oracle:thin:@" + _host + ":1521:" + _sid, _user, _pass);
 
-			st = conn.createStatement();
-
-            String sql = "select e.empno, e.ename, e.job, m.ename, d.dname, d.loc from EMPLOYEES E " +
+            PreparedStatement pre = conn.prepareStatement("select e.empno, e.ename, e.job, m.ename, d.dname, d.loc from EMPLOYEES E " +
                     "left join EMPLOYEES M on (e.mgr = m.empno)" +
                     "left join DEPARTMENTS D on (e.deptno = d.deptno)" +
-                    "order by e.empno";
-            PreparedStatement pre = conn.prepareStatement(sql);
-            ResultSet resultSet = pre.executeQuery();
+                    "order by e.empno");
+            rs = pre.executeQuery();
 
 
-			while(resultSet.next()){
-				String empno = resultSet.getString(1);
-				String ename1 = resultSet.getString(2);
-                String job = resultSet.getString(3);
-                String ename2 = resultSet.getString(4);
-                String dname = resultSet.getString(5);
-                String loc = resultSet.getString(6);
+			while(rs.next()){
+				String empno = rs.getString(1);
+				String ename1 = rs.getString(2);
+                String job = rs.getString(3);
+                String ename2 = rs.getString(4);
+                String dname = rs.getString(5);
+                String loc = rs.getString(6);
 
 				System.out.println(empno + "   " + ename1 + "  " + job + "  " + ename2 + "  " + dname + "  " + loc);
 			}
