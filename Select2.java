@@ -28,8 +28,10 @@ public class Select2 {
 
 			st = conn.createStatement();
 
-            String sql = "select e.empno, e.ename, e.job, m.ename, d.dname, d.loc from DEPARTMENTS D, EMPLOYEES E " +
-                    "join EMPLOYEES M on (e.mgr = m.empno)";
+            String sql = "select e.empno, e.ename, e.job, m.ename, d.dname, d.loc from EMPLOYEES E " +
+                    "left join EMPLOYEES M on (e.mgr = m.empno)" +
+                    "left join DEPARTMENTS D on (e.deptno = d.deptno)" +
+                    "order by e.empno";
             PreparedStatement pre = conn.prepareStatement(sql);
             ResultSet resultSet = pre.executeQuery();
 
