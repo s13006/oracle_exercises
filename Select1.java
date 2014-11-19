@@ -24,25 +24,44 @@ public class Select1 {
 		ResultSet rs = null;
 
 		try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            conn = DriverManager.getConnection(
+                    "jdbc:oracle:thin:@" + _host + ":1521:" + _sid, _user, _pass);
+
+            st = conn.createStatement();
+
+            PreparedStatement pre = conn.prepareStatement("select e.empno, e.ename, e.job, m.ename, d.dname, d.loc, e.sal, e.comm from EMPLOYEES E " +
+                    "left join EMPLOYEES M on (e.mgr = m.empno)" +
+                    "left join DEPARTMENTS D on (e.deptno = d.deptno)" +
+                    "order by e.empno");
+            rs = pre.executeQuery();
+
+            while (rs.next()){
+                String empno = rs.getString(1);
+                String ename1 = rs.getString(2);
+                String job = rs.getString(3);
+                String ename2 = rs.getString(4);
+                String dname = rs.getString(5);
+                String loc = rs.getString(6);
+                String sal = rs.getString(7);
+                String comm = rs.getString(8);
+
+                System.out.println(empno + "   " + ename1 + "  " + job + "  " + ename2 + "  " + dname + "  " + loc + "  " + sal + "  " + comm);
+            }
+
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
             System.out.println("empno を入力してください。");
             String str = br.readLine();
             int prefCd = Integer.parseInt(str);
 
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			conn = DriverManager.getConnection(
-					"jdbc:oracle:thin:@" + _host + ":1521:" + _sid, _user, _pass);
-
-			st = conn.createStatement();
-
-            PreparedStatement pre = conn.prepareStatement("select e.empno, e.ename, e.job, m.ename, d.dname, d.loc, e.sal, e.comm from EMPLOYEES E " +
+            pre = conn.prepareStatement("select e.empno, e.ename, e.job, m.ename, d.dname, d.loc, e.sal, e.comm from EMPLOYEES E " +
                     "left join EMPLOYEES M on (e.mgr = m.empno)" +
                     "left join DEPARTMENTS D on (e.deptno = d.deptno)" +
                     "where e.empno = '" + prefCd + "'" +
                     "order by e.empno");
 
-            rs =pre.executeQuery();
+            rs = pre.executeQuery();
 
 			while(rs.next()){
 				String empno = rs.getString(1);
