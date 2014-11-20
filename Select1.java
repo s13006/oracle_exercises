@@ -62,9 +62,9 @@ public class Select1 {
                     "ON (emp.deptno = dept.deptno) " +
                     "LEFT JOIN salgrades grd " +
                     "ON emp.sal BETWEEN grd.losal AND grd.hisal " +
-                    "WHERE emp.empno = '" + prefCd + "' " +
+                    "WHERE emp.empno = ? " +
                     "ORDER BY emp.empno");
-
+            pre.setInt(1,prefCd);
             rs = pre.executeQuery();
 
 			while(rs.next()){
@@ -75,30 +75,28 @@ public class Select1 {
                 String dname = rs.getString(5);
                 String loc = rs.getString(6);
                 String sal = rs.getString(7);
-                String comm = rs.getString(8);
+                String grd = rs.getString(8);
 
                 System.out.println("▼　従業員　▼");
-				System.out.println(empno + "   " + ename1 + "  " + job + "  " + ename2 + "  " + dname + "  " + loc + "  " + sal + "  " + comm);
+				System.out.println(empno + "   " + ename1 + "  " + job + "  " + ename2 + "  " + dname + "  " + loc + "  " + sal + "  " + grd);
 			}
 
             pre = conn.prepareStatement("SELECT emp.empno, emp.ename, emp.job, dept.dname, dept.loc," +
                     "emp.sal, grd.grade " +
-                    "FROM employees emp LEFT JOIN employees mgr " +
-                    "ON (emp.mgr = mgr.empno) " +
+                    "FROM employees emp " +
                     "LEFT JOIN departments dept " +
                     "ON (emp.deptno = dept.deptno) " +
                     "LEFT JOIN salgrades grd " +
                     "ON emp.sal BETWEEN grd.losal AND grd.hisal " +
-                    "WHERE mgr.empno = '" + prefCd + "' " +
+                    "WHERE emp.mgr = ? " +
                     "ORDER BY emp.empno");
-
+            pre.setInt(1,prefCd);
             rs = pre.executeQuery();
 
-            if (!rs.next()) {
-                System.out.println("▼　部下はいません　▼");
-            }
+            int count = 0;
 
             while(rs.next()){
+                count++;
                 String empno = rs.getString(1);
                 String ename1 = rs.getString(2);
                 String job = rs.getString(3);
@@ -109,6 +107,9 @@ public class Select1 {
 
                 System.out.println("▼　部下　▼");
                 System.out.println(empno + "   " + ename1 + "  " + job + "  " + dname + "  " + loc + "  " + sal + "  " + grd);
+            }
+            if (count == 0) {
+                System.out.println("▼　部下はいません　▼");
             }
 		}catch(ClassNotFoundException e){
 			throw e;
