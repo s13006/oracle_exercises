@@ -30,7 +30,7 @@ public class Select1 {
 
             st = conn.createStatement();
 
-            PreparedStatement pre = conn.prepareStatement("select e.empno, e.ename, e.job, m.ename, d.dname, d.loc, e.sal, e.comm from EMPLOYEES E " +
+            PreparedStatement pre = conn.prepareStatement("select e.empno, e.ename, e.job, m.ename, d.dname, d.loc, e.sal from EMPLOYEES E " +
                     "left join EMPLOYEES M on (e.mgr = m.empno)" +
                     "left join DEPARTMENTS D on (e.deptno = d.deptno)" +
                     "order by e.empno");
@@ -44,9 +44,8 @@ public class Select1 {
                 String dname = rs.getString(5);
                 String loc = rs.getString(6);
                 String sal = rs.getString(7);
-                String comm = rs.getString(8);
 
-                System.out.println(empno + "   " + ename1 + "  " + job + "  " + ename2 + "  " + dname + "  " + loc + "  " + sal + "  " + comm);
+                System.out.println(empno + "   " + ename1 + "  " + job + "  " + ename2 + "  " + dname + "  " + loc + "  " + sal);
             }
 
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -55,11 +54,16 @@ public class Select1 {
             String str = br.readLine();
             int prefCd = Integer.parseInt(str);
 
-            pre = conn.prepareStatement("select e.empno, e.ename, e.job, m.ename, d.dname, d.loc, e.sal, e.comm from EMPLOYEES E " +
-                    "left join EMPLOYEES M on (e.mgr = m.empno)" +
-                    "left join DEPARTMENTS D on (e.deptno = d.deptno)" +
-                    "where e.empno = '" + prefCd + "'" +
-                    "order by e.empno");
+            pre = conn.prepareStatement("SELECT emp.empno, emp.ename, emp.job, mgr.ename, dept.dname, dept.loc," +
+                    "emp.sal, grd.grade " +
+                    "FROM employees emp LEFT JOIN employees mgr " +
+                    "ON (emp.mgr = mgr.empno) " +
+                    "LEFT JOIN departments dept " +
+                    "ON (emp.deptno = dept.deptno) " +
+                    "LEFT JOIN salgrades grd " +
+                    "ON emp.sal BETWEEN grd.losal AND grd.hisal " +
+                    "WHERE emp.empno = '" + prefCd + "' " +
+                    "ORDER BY emp.empno");
 
             rs = pre.executeQuery();
 
@@ -73,9 +77,39 @@ public class Select1 {
                 String sal = rs.getString(7);
                 String comm = rs.getString(8);
 
-//                System.out.println("社員番号  社員名  職種  上司の名前  部署名  場所");
+                System.out.println("▼　従業員　▼");
 				System.out.println(empno + "   " + ename1 + "  " + job + "  " + ename2 + "  " + dname + "  " + loc + "  " + sal + "  " + comm);
 			}
+
+            pre = conn.prepareStatement("SELECT emp.empno, emp.ename, emp.job, dept.dname, dept.loc," +
+                    "emp.sal, grd.grade " +
+                    "FROM employees emp LEFT JOIN employees mgr " +
+                    "ON (emp.mgr = mgr.empno) " +
+                    "LEFT JOIN departments dept " +
+                    "ON (emp.deptno = dept.deptno) " +
+                    "LEFT JOIN salgrades grd " +
+                    "ON emp.sal BETWEEN grd.losal AND grd.hisal " +
+                    "WHERE mgr.empno = '" + prefCd + "' " +
+                    "ORDER BY emp.empno");
+
+            rs = pre.executeQuery();
+
+            if (!rs.next()) {
+                System.out.println("▼　部下はいません　▼");
+            }
+
+            while(rs.next()){
+                String empno = rs.getString(1);
+                String ename1 = rs.getString(2);
+                String job = rs.getString(3);
+                String dname = rs.getString(4);
+                String loc = rs.getString(5);
+                String sal = rs.getString(6);
+                String grd = rs.getString(7);
+
+                System.out.println("▼　部下　▼");
+                System.out.println(empno + "   " + ename1 + "  " + job + "  " + dname + "  " + loc + "  " + sal + "  " + grd);
+            }
 		}catch(ClassNotFoundException e){
 			throw e;
 		}catch(SQLException e){
