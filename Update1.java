@@ -61,7 +61,7 @@ public class Update1 {
             String yomi = rs.getString(3);
             String job = rs.getString(4);
             int mgr = rs.getInt(5);
-            String hiredate = rs.getString(6).substring(0,9);
+            String hiredate = rs.getString(6).substring(0,10);
             int sal = rs.getInt(7);
             int comm = rs.getInt(8);
             int deptno = rs.getInt(9);
